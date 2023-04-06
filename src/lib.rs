@@ -5,27 +5,26 @@ const GRID_SIZE: usize = DIGITS * DIGITS;
 
 #[derive(Clone, Copy, Debug, Default)]
 struct Cell {
-    value: u32,
+    value: Option<u32>,
 }
 
 impl Cell {
-    fn new(value: u32) -> Self {
+    fn new(value: Option<u32>) -> Self {
         Self { value }
     }
 }
 
 impl From<u32> for Cell {
     fn from(value: u32) -> Self {
-        Cell::new(value)
+        Cell::new(Some(value))
     }
 }
 
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let value = if self.value == 0 {
-            String::from(" ")
-        } else {
-            self.value.to_string()
+        let value = match self.value {
+            Some(v) => v.to_string(),
+            None => String::from(" "),
         };
 
         write!(f, "{}", value)
@@ -69,7 +68,6 @@ impl str::FromStr for Grid {
             .lines()
             .flat_map(|line| line.chars())
             .map(|c| c.to_digit(10))
-            .map(|x| x.unwrap_or_default())
             .map(Cell::new)
             .collect();
 
