@@ -1,12 +1,7 @@
 use std::str;
 
-const CELLS_PER_ROW: usize = 9;
-const GRID_SIZE: usize = CELLS_PER_ROW * CELLS_PER_ROW;
-
-#[derive(Debug, PartialEq)]
-pub enum GridError {
-    ConversionFailed,
-}
+const DIGITS: usize = 9;
+const GRID_SIZE: usize = DIGITS * DIGITS;
 
 type Cells = [u8; GRID_SIZE];
 
@@ -19,6 +14,11 @@ impl Grid {
     fn new(cells: Cells) -> Self {
         Self { _cells: cells }
     }
+}
+
+#[derive(Debug, PartialEq)]
+pub enum GridError {
+    ConversionFailed,
 }
 
 impl TryFrom<Vec<u8>> for Grid {
